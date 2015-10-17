@@ -11,7 +11,7 @@ This assignment makes use of data from a personal activity monitoring device. Th
 
 ## Loading and preprocessing the data
 Loading the data is straight forward using the command read.csv. To reproduce the report is will be necessary to adapt the path to the file activity.csv.
-```{r}
+```{r, echo=TRUE}
 #Read the data
 orig_steps <- read.csv("D:/R/Coursera/reproducible/assignment1/activity.csv",header=TRUE)
 ```
@@ -23,7 +23,7 @@ questions to be answered and on the charts to be produced preprocessing is inclu
 The data contains the data in time intervals of 5 minutes for different days. To get an impression
 of the number of steps per day aggregation is necessary. The sum function is used to aggregate over all 5-minute
 intervals.
-```{r}
+```{r, echo=TRUE}
 #Regard date as a factor to simplify aggregation
 steps <- transform(orig_steps, date = factor(date))
 agSteps <- aggregate(steps ~ date, steps, sum)
@@ -40,7 +40,7 @@ these two days are not deleted.
 This time it is necessary to aggregate over the different dates. The mean function is used to find out the
 daily movement pattern
 
-```{r}
+```{r, echo=TRUE,fig.height=9, fig.widht=9}
 agSteps <- aggregate(x=orig_steps$steps, by=list(orig_steps$interval), FUN=mean,na.rm = TRUE)
 plot(agSteps$Group.1, agSteps$x, type='l',main = "Number of steps ", xlab = "Time", ylab= "Steps")
 ```
@@ -51,13 +51,13 @@ about 6 or 7 pm. Maybe the person is doing some sports.
 
 ## Imputing missing values
 Now lets test wether there are some missing values.
-```{r}
+```{r, echo=TRUE}
 mis_val <- length(orig_steps$steps) - sum(complete.cases(orig_steps))
 ```
 
 Alltogether there are `r mis_val` missing values. To get rid of themthey will be replaced with the mean of the steps at the time of the 
 missing value
-```{r}
+```{r,echo=TRUE, fig.height=9, fig.width=9}
 imputedVals <- orig_steps
 for(i in 1:length(imputedVals$steps))
 {
@@ -71,7 +71,7 @@ hist(impAgVals$steps, xlab = "Number of steps per day")
 
 Now let us test whether the missing values have an effect on the median and on the mean.
 
-```{r}
+```{r,echo=TRUE}
 mean_agsteps <- mean(impAgVals$steps)
 median_agsteps <- median(impAgVals$steps)
 ```
@@ -81,7 +81,7 @@ The mean after the imputation is `r mean_agsteps`, the median is `r median_agste
 To find out the difference between weekdays and weekends the date has to be transformed and afterwards saturday and sunday 
 are regarded as weekend, the other days as wweekdays.
 
-```{r}
+```{r,echo=TRUE,fig.height=9, fig.width=9}
 #Change the type of date in order to calculate the weekday
 impAgVals <- transform(impAgVals, date = as.character(date))
 impAgVals <- transform(impAgVals, date = strptime(date, format = "%Y-%m-%d"))
