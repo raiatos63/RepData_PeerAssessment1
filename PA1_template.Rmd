@@ -15,7 +15,7 @@ Loading the data is straight forward using the command read.csv. To reproduce th
 #Read the data
 orig_steps <- read.csv("D:/R/Coursera/reproducible/assignment1/activity.csv",header=TRUE)
 ```
-Further preprocessing, e.g. reformatting the data will be necessary. But as these activities depend on the 
+Further preprocessing, for example reformatting the data will be necessary. But as these activities depend on the 
 questions to be answered and on the charts to be produced preprocessing is included in the subsections.
 
 
